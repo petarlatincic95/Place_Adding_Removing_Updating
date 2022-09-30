@@ -19,7 +19,7 @@ namespace Place_Adding_Removing_Updating.Data.HelperModels
 
                 var temp = new
                 {
-
+                    id=places[i].Id,
                     place = places[i].Name,
                     zipcode = places[i].ZipCode,
                     country = places[i].Country.Name
@@ -57,8 +57,34 @@ namespace Place_Adding_Removing_Updating.Data.HelperModels
         {
 
             var placeToAdd = new Place();
+            //ZipCode check
+
+            var isZipCodeOk = int.TryParse(request.ZipCode, out int reult);
+            //bool isZipcodeOk = true;
+            //for (int i = 0; i < zipCodeRequest.Length; i++)
+            //{
+            //    if (zipCodeRequest[i] != '0' ||
+            //        zipCodeRequest[i] != '1' ||
+            //        zipCodeRequest[i] != '2' ||
+            //        zipCodeRequest[i] != '3' ||
+            //        zipCodeRequest[i] != '4' ||
+            //        zipCodeRequest[i] != '5' ||
+            //        zipCodeRequest[i] != '6' ||
+            //        zipCodeRequest[i] != '7' ||
+            //        zipCodeRequest[i] != '8' ||
+            //        zipCodeRequest[i] != '9'  )
+                    
+            //        isZipcodeOk = false;
+
+
+
+
+
+            //}
+
+
             if (string.IsNullOrEmpty(request.Name) || string.IsNullOrEmpty(request.ZipCode) || string.IsNullOrEmpty(request.CountryofPlace)
-                || request.Name == "string" || request.ZipCode == "string") 
+                || request.Name == "string" || request.ZipCode == "string"||isZipCodeOk==false) 
                 return false;
             
             else

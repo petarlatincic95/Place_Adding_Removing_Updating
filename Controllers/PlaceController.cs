@@ -18,26 +18,43 @@ namespace Place_Adding_Removing_Updating.Controllers
           this._dbcontext = _dbContext;
         }
         // GET: api/<PlaceController>
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
+        [HttpGet("{page}")]
+        public async Task<IActionResult> Get(int page)
+            {
+            
             var helperObj = new PlaceHelperClass(_dbcontext);
             var allPlaces=await helperObj.GetAllPlaces();
-            return Ok(allPlaces);
+            var placeResult = 3f;
+            
+            var placeCount = Math.Ceiling(allPlaces.Count()/placeResult);
+            var toReturn = allPlaces.Skip((page - 1) * (int)placeResult)
+                .Take((int)placeResult).ToList();
+            var placeResponse = new Places_PagingDTO
+            {
+                Places = toReturn,
+                CurrentPage = page,
+                Pages = (int)placeCount
+
+
+
+
+
+            };
+            return Ok(placeResponse);
         }
 
         // GET api/<PlaceController>/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("Single_Place/{id}")]
+        public async Task<IActionResult> GetPlace(int id)
         {
-            var helperObj=new PlaceHelperClass(_dbcontext);
+            var helperObj = new PlaceHelperClass(_dbcontext);
             if (await helperObj.GetbyId(id) == null)
                 return BadRequest("Record with given id not found!");
             else
                 return Ok(await helperObj.GetbyId(id));
-                
 
-            
+
+
         }
 
         // POST api/<PlaceController>
