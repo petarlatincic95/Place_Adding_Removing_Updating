@@ -90,8 +90,12 @@ namespace Place_Adding_Removing_Updating.Data.HelperModels
 
         public async Task<bool> UpdatePlace(int id, string name, string zipcode)
         {
+           
+             
+
+           var  isZipCodeOK = int.TryParse(zipcode,out int t);
             var placeToUpdate = await _dbContext.Places.FindAsync(id);
-            if (placeToUpdate == null || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(zipcode) || name == "string" || zipcode == "string")
+            if (placeToUpdate == null || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(zipcode) || name == "string" || zipcode == "string"||isZipCodeOK==false)
                 return false;
             else
 

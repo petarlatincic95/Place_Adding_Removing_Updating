@@ -11,22 +11,22 @@ namespace Place_Adding_Removing_Updating.Controllers
     public class PlaceController : ControllerBase
     {
 
-       private readonly dbContext _dbcontext;
+        private readonly dbContext _dbcontext;
 
         public PlaceController(dbContext _dbContext)
         {
-          this._dbcontext = _dbContext;
+            this._dbcontext = _dbContext;
         }
         // GET: api/<PlaceController>
         [HttpGet("{page}")]
         public async Task<IActionResult> Get(int page)
-            {
-            
+        {
+
             var helperObj = new PlaceHelperClass(_dbcontext);
-            var allPlaces=await helperObj.GetAllPlaces();
+            var allPlaces = await helperObj.GetAllPlaces();
             var placeResult = 3f;
-            
-            var placeCount = Math.Ceiling(allPlaces.Count()/placeResult);
+
+            var placeCount = Math.Ceiling(allPlaces.Count() / placeResult);
             var toReturn = allPlaces.Skip((page - 1) * (int)placeResult)
                 .Take((int)placeResult).ToList();
             var placeResponse = new Places_PagingDTO
@@ -41,6 +41,16 @@ namespace Place_Adding_Removing_Updating.Controllers
 
             };
             return Ok(placeResponse);
+        }
+        [HttpGet("Number_of_Places")]
+        public async Task<IActionResult> Get()
+        { 
+        var helperObj=new PlaceHelperClass(_dbcontext);
+          var toReturn=await helperObj.GetAllPlaces();
+          return Ok(toReturn.Count);
+        
+        
+        
         }
 
         // GET api/<PlaceController>/5
